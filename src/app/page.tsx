@@ -114,6 +114,14 @@ const App: React.FC = () => {
             onClose={() => setSelectedFinding(null)}
           />
         )}
+
+        <footer className="mt-16 pt-8 border-t border-gray-200 text-center text-sm text-gray-600">
+          <p>Created by Obie Munoz</p>
+          <p className="mt-1">
+            This is an unofficial tool for visualizing Veracode scan results.
+            Veracode is a registered trademark of Veracode, Inc.
+          </p>
+        </footer>
       </div>
     </div>
   );
