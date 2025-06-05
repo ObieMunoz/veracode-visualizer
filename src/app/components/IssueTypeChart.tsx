@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
-import { Chart, ArcElement, PieController } from "chart.js";
+import { Chart, ArcElement, PieController, Tooltip } from "chart.js";
 import { Finding } from "../types";
 
-Chart.register(PieController, ArcElement);
+Chart.register(PieController, ArcElement, Tooltip);
 
 interface IssueTypeChartProps {
   findings: Finding[];
@@ -84,7 +84,23 @@ const IssueTypeChart: React.FC<IssueTypeChartProps> = ({ findings }) => {
       options: {
         responsive: true,
         maintainAspectRatio: false,
-        plugins: { legend: { position: "top" } },
+        plugins: {
+          legend: { position: "top" },
+          tooltip: {
+            callbacks: {
+              label: function (context) {
+                const label = context.label || "";
+                const value = context.raw as number;
+                const total = context.dataset.data.reduce(
+                  (a: number, b: number) => a + b,
+                  0
+                );
+                const percentage = ((value / total) * 100).toFixed(1);
+                return `${label}: ${value} findings (${percentage}%)`;
+              },
+            },
+          },
+        },
       } as const,
     });
     return () => {
